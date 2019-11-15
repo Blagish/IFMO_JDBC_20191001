@@ -1,5 +1,6 @@
 package com.efimchick.ifmo.web.jdbc;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -49,7 +50,7 @@ public class SetMapperFactory {
                     new FullName(firstName, lastName, middleName),
                     Position.valueOf(position),
                     LocalDate.parse(hireDate),
-                    resultSet.getBigDecimal(salary),
+                    new BigDecimal(salary),
                     manager);
             return employee;
         }
