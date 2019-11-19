@@ -23,8 +23,8 @@ public class DaoFactory {
         String position = resultSet.getString("position");
         String hireDate = resultSet.getString("hireDate");
         String salary = resultSet.getString("salary");
-        String managerId = resultSet.getString("manager");
-        String departmentId = resultSet.getString("department");
+        int managerId = resultSet.getInt("manager");
+        int departmentId = resultSet.getInt("department");
         
         return new Employee(
                 new BigInteger(id),
@@ -32,8 +32,8 @@ public class DaoFactory {
                 Position.valueOf(position),
                 LocalDate.parse(hireDate),
                 new BigDecimal(salary),
-                new BigInteger(managerId),
-                new BigInteger(departmentId));
+                BigInteger.valueOf(managerId),
+                BigInteger.valueOf(departmentId));
     }
     
     private Department newDepartment(ResultSet resultSet) throws SQLException {
@@ -44,7 +44,12 @@ public class DaoFactory {
     }
 
     private ResultSet executeRequest(String request) throws SQLException {
-        return ConnectionSource.instance().createConnection().createStatement().executeQuery(request);
+        try {
+            return ConnectionSource.instance().createConnection().createStatement().executeQuery(request);
+        }
+        catch (SQLException e){
+            return null;
+        }
     }
 
     public EmployeeDao employeeDAO() {
